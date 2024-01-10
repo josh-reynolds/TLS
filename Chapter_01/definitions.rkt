@@ -31,3 +31,19 @@
 
 (define le
   (list 'hamburger))
+
+(define lf
+  (list
+   (list 'b)
+   (list 'x 'y)
+   (list
+    (list 'c))))
+
+(define lg
+  (list 'butter 'and 'jelly))
+
+(define lh
+  (list 'a 'b (list 'c)))
+
+(define li
+  '())
