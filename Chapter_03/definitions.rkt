@@ -38,6 +38,24 @@
       (else (cons (car lat) (insertR new old (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define insertL           ; interactions window lowercases this as 'insertl' - watch out!
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons new (cons old (cdr lat))))
+      (else (cons (car lat) (insertL new old (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define subst
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons new (cdr lat)))
+      (else (cons (car lat) (subst new old (cdr lat)))))))
+; ------------------------------
+
 (define list1
   (list 'lamb 'chops 'and 'mint 'jelly))
 
