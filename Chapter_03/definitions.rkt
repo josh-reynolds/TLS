@@ -21,6 +21,22 @@
                           (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define firsts
+  (lambda (l)
+    (cond
+      ((null? l) '())
+      (else (cons (car (car l)) (firsts (cdr l)))))))
+; ------------------------------
+
+; ------------------------------
+(define insertR           ; interactions window lowercases this as 'insertr' - watch out!
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons old (cons new (cdr lat))))
+      (else (cons (car lat) (insertR new old (cdr lat)))))))
+; ------------------------------
 
 (define list1
   (list 'lamb 'chops 'and 'mint 'jelly))
@@ -30,3 +46,17 @@
 
 (define list3
   (list 'bacon 'lettuce 'and 'tomato))
+
+(define list4
+  (list 'soy 'sauce 'and 'tomato 'sauce))
+
+(define list5
+  (list (list 'a 'b)
+        (list 'c 'd)
+        (list 'e 'f)))
+
+(define list6
+  (list 'ice 'cream 'with 'fudge 'for 'dessert))
+
+(define list7
+  (list 'tacos 'tamales 'and 'salsa))
