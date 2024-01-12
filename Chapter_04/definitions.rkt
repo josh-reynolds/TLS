@@ -37,3 +37,19 @@
       ((zero? m) n)
       (else (sub1 (o- n (sub1 m)))))))
 ; ------------------------------
+
+; ------------------------------
+(define addtup
+  (lambda (tup)
+    (cond
+      ((null? tup) 0)
+      (else (o+ (car tup)(addtup (cdr tup)))))))
+; ------------------------------
+
+; ------------------------------
+(define times                 ; text uses typographic times symbol, but 'x' is easily confused
+  (lambda (n m)               ; with a variable, and '*' is a primitive operation...
+    (cond
+      ((zero? m) 0)
+      (else (o+ n (times n (sub1 m)))))))
+; ------------------------------
