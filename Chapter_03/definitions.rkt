@@ -56,6 +56,25 @@
       (else (cons (car lat) (subst new old (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define subst2
+  (lambda (new old1 old2 lat)
+    (cond
+      ((null? lat) '())
+      ((or (eq? old1 (car lat))
+           (eq? old2 (car lat))) (cons new (cdr lat)))
+      (else (cons (car lat) (subst new old1 old2 (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define multirember
+  (lambda (a lat)
+    (cond
+      ((null? lat) '())
+      ((eq? a (car lat)) (multirember a (cdr lat)))
+      (else (cons (car lat) (multirember a (cdr lat)))))))
+; ------------------------------
+
 (define list1
   (list 'lamb 'chops 'and 'mint 'jelly))
 
@@ -78,3 +97,6 @@
 
 (define list7
   (list 'tacos 'tamales 'and 'salsa))
+
+(define list8
+  (list 'banana 'ice 'cream 'with 'chocolate 'topping))
