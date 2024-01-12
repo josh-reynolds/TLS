@@ -75,6 +75,24 @@
       (else (cons (car lat) (multirember a (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define multiinsertR      ; interactions window lowercases this as 'multiinsertr' - watch out!
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons old (cons new (multiinsertR new old (cdr lat)))))
+      (else (cons (car lat) (multiinsertR new old (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define multiinsertL      ; interactions window lowercases this as 'multiinsertl' - watch out!
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons new (cons old (multiinsertL new old (cdr lat)))))
+      (else (cons (car lat) (multiinsertL new old (cdr lat)))))))
+; ------------------------------
+
 (define list1
   (list 'lamb 'chops 'and 'mint 'jelly))
 
