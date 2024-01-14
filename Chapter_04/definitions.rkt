@@ -105,3 +105,36 @@
       ((lt? n m) 0)
       (else (add1 (divide (o- n m) m))))))
 ; ------------------------------
+
+; ------------------------------
+(define length
+  (lambda (lat)
+    (cond
+      ((null? lat) 0)
+      (else (add1 (length (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define pick
+  (lambda (n lat)
+    (cond
+      ((eq? n 1) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+; ------------------------------
+
+; ------------------------------
+(define rempick
+  (lambda (n lat)
+    (cond
+      ((eq? n 1) (cdr lat))
+      (else (cons (car lat)(rempick (sub1 n) (cdr lat)))))))
+; ------------------------------
+
+(define list1
+  (list 'hotdogs 'with 'mustard 'sauerkraut 'and 'pickles))
+
+(define list2
+  (list 'lasagna 'spaghetti 'ravioli 'macaroni 'meatball))
+
+(define list3
+  (list 'hotdogs 'with 'hot 'mustard))
