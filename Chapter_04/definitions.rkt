@@ -166,6 +166,20 @@
       (else (occur a (cdr lat))))))
 ; ------------------------------
 
+; ------------------------------
+(define one?                  ; they assume numeric arguments, so use '='
+  (lambda (n)                 ; I am again generalizing for any atom and using equan?
+    (equan? n 1)))
+; ------------------------------
+
+; ------------------------------
+(define rempick2              ; rewriting previous function to use one?
+  (lambda (n lat)
+    (cond
+      ((one? n) (cdr lat))
+      (else (cons (car lat)(rempick (sub1 n) (cdr lat)))))))
+; ------------------------------
+
 (define list1
   (list 'hotdogs 'with 'mustard 'sauerkraut 'and 'pickles))
 
@@ -177,3 +191,6 @@
 
 (define list4
   (list 5 'pears 6 'prunes 9 'dates))
+
+(define list5
+  (list 'lemon 'meringue 'salty 'pie))
