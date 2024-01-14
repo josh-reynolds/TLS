@@ -130,6 +130,18 @@
       (else (cons (car lat)(rempick (sub1 n) (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define no-nums
+  (lambda (lat)
+    (cond
+      ((null? lat)'())
+      ((number? (car lat)) (no-nums (cdr lat)))
+      (else (cons (car lat) (no-nums (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+; ------------------------------
+
 (define list1
   (list 'hotdogs 'with 'mustard 'sauerkraut 'and 'pickles))
 
@@ -138,3 +150,6 @@
 
 (define list3
   (list 'hotdogs 'with 'hot 'mustard))
+
+(define list4
+  (list 5 'pears 6 'prunes 9 'dates))
