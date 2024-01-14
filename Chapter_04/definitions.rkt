@@ -140,6 +140,30 @@
 ; ------------------------------
 
 ; ------------------------------
+(define all-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((number? (car lat)) (cons (car lat) (all-nums (cdr lat))))
+      (else (all-nums (cdr lat))))))
+; ------------------------------
+
+; ------------------------------
+(define equan?
+  (lambda (a1 a2)
+    (cond
+      ((and (number? a1)(number? a2))(= a1 a2))
+      ((or (number? a1)(number? a2)) #f)
+      (else (eq? a1 a2)))))
+; ------------------------------
+
+; ------------------------------
+(define occur                 ; in the text, they mention generalizing by replacing eq? with equan?
+  (lambda (a lat)             ; yet their definition is written with eq?
+    (cond                     ; I'm choosing to use equan? instead
+      ((null? lat) 0)
+      ((equan? a (car lat))(add1 (occur a (cdr lat))))
+      (else (occur a (cdr lat))))))
 ; ------------------------------
 
 (define list1
