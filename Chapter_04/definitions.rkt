@@ -89,3 +89,19 @@
       ((gt? n m) #f)
       (else #t))))
 ; ------------------------------
+
+; ------------------------------
+(define pow                   ; text uses typographic up-arrow
+  (lambda (n m)               ; 'expt' is the defined procedure for this same function
+    (cond
+      ((zero? m) 1)
+      (else (times n (pow n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define divide                ; text uses typographic division symbol
+  (lambda (n m)               ; 'quotient' is the defined procedure for this same function
+    (cond
+      ((lt? n m) 0)
+      (else (add1 (divide (o- n m) m))))))
+; ------------------------------
