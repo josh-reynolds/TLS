@@ -101,6 +101,18 @@
       (else (cons (insertL* new old (car l))(insertL* new old (cdr l)))))))
 ; ------------------------------
 
+; ------------------------------
+(define member*
+  (lambda (a l)
+    (cond
+      ((null? l) #f)
+      ((atom? (car l))
+       (or (eq? a (car l))
+           (member* a (cdr l))))
+      (else (or (member* a (car l))
+                (member* a (cdr l)))))))
+; ------------------------------
+
 (define list1
   (list (list 'coffee)
         'cup
@@ -140,3 +152,10 @@
         (list 'banana)
         (list 'bread)
         (list 'banana 'brandy)))
+
+(define list5
+  (list (list 'potato)
+        (list 'chips
+              (list (list 'with)
+                    'fish))
+        (list 'chips)))
