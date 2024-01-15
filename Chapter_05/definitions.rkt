@@ -76,6 +76,31 @@
                 (occur* a (cdr l)))))))
 ; ------------------------------
 
+; ------------------------------
+(define subst*
+  (lambda (new old l)
+    (cond
+      ((null? l) '())
+      ((atom? (car l))
+       (cond
+         ((eq? old (car l))(cons new (subst* new old (cdr l))))
+         (else (cons (car l)(subst* new old (cdr l))))))
+      (else (cons (subst* new old (car l))
+                  (subst* new old (cdr l)))))))
+; ------------------------------
+
+; ------------------------------
+(define insertL*              ; this will be lowercased to 'insertl*'
+  (lambda (new old l)
+    (cond
+      ((null? l) '())
+      ((atom? (car l))
+       (cond
+         ((eq? old (car l)) (cons new (cons old (insertL* new old (cdr l)))))
+         (else (cons (car l)(insertL* new old (cdr l))))))
+      (else (cons (insertL* new old (car l))(insertL* new old (cdr l)))))))
+; ------------------------------
+
 (define list1
   (list (list 'coffee)
         'cup
