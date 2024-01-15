@@ -41,7 +41,39 @@
          ((eq? old (car l)) (cons old (cons new (insertR* new old (cdr l)))))
          (else (cons (car l)(insertR* new old (cdr l))))))
       (else (cons (insertR* new old (car l))(insertR* new old (cdr l)))))))
-         
+; ------------------------------
+
+; ------------------------------
+(define add1
+  (lambda (n)
+    (+ n 1)))
+; ------------------------------
+
+; ------------------------------
+(define sub1
+  (lambda (n)
+    (- n 1)))
+; ------------------------------
+
+; ------------------------------
+(define o+
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (add1 (o+ n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define occur*
+  (lambda (a l)
+    (cond
+      ((null? l) 0)
+      ((atom? (car l))
+       (cond
+         ((eq? a (car l))(add1 (occur* a (cdr l))))
+         (else (occur* a (cdr l)))))
+      (else (o+ (occur* a (car l))
+                (occur* a (cdr l)))))))
 ; ------------------------------
 
 (define list1
@@ -74,4 +106,12 @@
               (list
                (list 'wood 'chuck)))
         'could 'chuck 'wood))
-        
+
+(define list4
+  (list (list 'banana)
+        (list 'split (list (list (list (list 'banana 'ice)))
+                           (list 'cream (list 'banana))
+                           'sherbet))
+        (list 'banana)
+        (list 'bread)
+        (list 'banana 'brandy)))
