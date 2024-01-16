@@ -121,6 +121,34 @@
       (else (leftmost (car l))))))
 ; ------------------------------
 
+; ------------------------------
+(define equan?
+  (lambda (a1 a2)
+    (cond
+      ((and (number? a1)(number? a2))(= a1 a2))
+      ((or (number? a1)(number? a2)) #f)
+      (else (eq? a1 a2)))))
+; ------------------------------
+
+; ------------------------------
+(define eqlist?
+  (lambda (l1 l2)
+    (cond
+      ((and (null? l1)(null? l2)) #t)
+      ((and (null? l1)(atom? (car l2))) #f)
+      ((null? l1) #f)
+      ;
+      ((and (atom? (car l1))(null? l2) #f))
+      ((and (atom? (car l1))(atom? (car l2))) (and (equan? (car l1)(car l2))
+                                                   (eqlist? (cdr l1)(cdr l2))))
+      ((atom? (car l1)) #f)
+      ;
+      ((null? l2) #f)
+      ((atom? (car l2)) #f)
+      (else (and (eqlist? (car l1)(car l2))
+                 (eqlist? (cdr l1)(cdr l2)))))))
+; ------------------------------
+
 (define list1
   (list (list 'coffee)
         'cup
@@ -173,3 +201,9 @@
               (list 'tuna
                     (list 'and)))
         'cheese))
+
+(define list7
+  (list 'strawberry 'ice 'cream))
+
+(define list8
+  (list 'strawberry 'ice 'cream))
