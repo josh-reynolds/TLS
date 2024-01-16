@@ -113,6 +113,14 @@
                 (member* a (cdr l)))))))
 ; ------------------------------
 
+; ------------------------------
+(define leftmost
+  (lambda (l)
+    (cond
+      ((atom? (car l)) (car l))
+      (else (leftmost (car l))))))
+; ------------------------------
+
 (define list1
   (list (list 'coffee)
         'cup
@@ -159,3 +167,9 @@
               (list (list 'with)
                     'fish))
         (list 'chips)))
+
+(define list6
+  (list (list (list 'hot)
+              (list 'tuna
+                    (list 'and)))
+        'cheese))
