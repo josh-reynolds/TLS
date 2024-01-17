@@ -149,6 +149,18 @@
       (else (eqlist? s1 s2)))))
 ; ------------------------------
 
+; ------------------------------
+; will only remove 'top-level' s-expressions, not nested
+; since this does not recur into (car l)
+(define rember
+  (lambda (s l)
+    (cond
+      ((null? l) '())
+      ((o-equal? (car l) s)(cdr l))
+      (else (cons (car l) (rember s (cdr l)))))))
+; ------------------------------
+
+
 (define list1
   (list (list 'coffee)
         'cup
