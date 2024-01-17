@@ -20,16 +20,29 @@
 ; ------------------------------
 
 ; ------------------------------
-(define value
+(define value                 ; this version is for infix notation (n + m)
   (lambda (nexp)
     (cond
       ((atom? nexp) nexp)
       ((eq? (car (cdr nexp)) '+) (o+ (value (car nexp))
-                                         (value (car (cdr (cdr nexp))))))
+                                     (value (car (cdr (cdr nexp))))))
       ((eq? (car (cdr nexp)) 'x) (times (value (car nexp))
                                         (value (car (cdr (cdr nexp))))))
       (else (pow (value (car nexp))
                  (value (car (cdr (cdr nexp)))))))))
+; ------------------------------
+
+; ------------------------------
+(define value2                ; this version is for prefix notation (+ n m)
+  (lambda (nexp)              ; the text overwrites the previous definition
+    (cond                     ; but I want to keep both
+      ((atom? nexp) nexp)
+      ((eq? (car nexp) '+) (o+ (value2 (car (cdr nexp)))
+                               (value2 (car (cdr (cdr nexp))))))
+      ((eq? (car nexp) 'x) (times (value2 (car (cdr nexp)))
+                                  (value2 (car (cdr (cdr nexp))))))
+      (else (pow (value2 (car (cdr nexp)))
+                 (value2 (car (cdr (cdr nexp)))))))))
 ; ------------------------------
 
 ; ------------------------------
@@ -73,3 +86,11 @@
 
 (define list2
   (list 4 '+ 3))
+
+(define list3
+  (list '+
+        (list 'x 3 6)
+        (list '^ 8 2)))
+
+(define list4
+  (list '+ 1 3))
