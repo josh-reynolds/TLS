@@ -196,6 +196,36 @@
     (car (cdr (cdr l)))))
 ; ------------------------------
 
+; ------------------------------
+(define firsts
+  (lambda (l)
+    (cond
+      ((null? l) '())
+      (else (cons (car (car l)) (firsts (cdr l)))))))
+; ------------------------------
+
+; ------------------------------
+(define fun?
+  (lambda (rel)
+    (set? (firsts rel))))
+; ------------------------------
+
+; ------------------------------
+(define revrel
+  (lambda (rel)
+    (cond
+      ((null? rel) '())
+      (else (cons (revpair (car rel))
+                  (revrel (cdr rel)))))))
+; ------------------------------
+
+; ------------------------------
+(define revpair
+  (lambda (p)
+    (build (second p)
+           (first p))))
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
@@ -261,3 +291,8 @@
         (list 7 6)
         (list 6 2)
         (list 3 4)))
+
+(define list19
+  (list (list 8 'a)
+        (list 'pumpkin 'pie)
+        (list 'got 'sick)))
