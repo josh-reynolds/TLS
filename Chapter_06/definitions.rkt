@@ -20,29 +20,16 @@
 ; ------------------------------
 
 ; ------------------------------
-(define value                 ; this version is for infix notation (n + m)
-  (lambda (nexp)
-    (cond
+(define value                 ; infix + prefix versions merged together via help functions, below
+  (lambda (nexp)              
+    (cond                     
       ((atom? nexp) nexp)
-      ((eq? (car (cdr nexp)) '+) (o+ (value (car nexp))
-                                     (value (car (cdr (cdr nexp))))))
-      ((eq? (car (cdr nexp)) 'x) (times (value (car nexp))
-                                        (value (car (cdr (cdr nexp))))))
-      (else (pow (value (car nexp))
-                 (value (car (cdr (cdr nexp)))))))))
-; ------------------------------
-
-; ------------------------------
-(define value2                ; this version is for prefix notation (+ n m)
-  (lambda (nexp)              ; the text overwrites the previous definition
-    (cond                     ; but I want to keep both
-      ((atom? nexp) nexp)
-      ((eq? (operator nexp) '+) (o+ (value2 (1st-sub-exp nexp))
-                                    (value2 (2nd-sub-exp nexp))))
-      ((eq? (operator nexp) 'x) (times (value2 (1st-sub-exp nexp))
-                                       (value2 (2nd-sub-exp nexp))))
-      (else (pow (value2 (1st-sub-exp nexp))
-                 (value2 (2nd-sub-exp nexp)))))))
+      ((eq? (operator nexp) '+) (o+ (value (1st-sub-exp nexp))
+                                    (value (2nd-sub-exp nexp))))
+      ((eq? (operator nexp) 'x) (times (value (1st-sub-exp nexp))
+                                       (value (2nd-sub-exp nexp))))
+      (else (pow (value (1st-sub-exp nexp))
+                 (value (2nd-sub-exp nexp)))))))
 ; ------------------------------
 
 ; ------------------------------
@@ -52,27 +39,27 @@
 ; ------------------------------
 
 ; ------------------------------
-(define 1st-sub-exp           ; for infix notation (n + m)
-  (lambda (aexp)
-    (car aexp)))
-; ------------------------------
-
-; ------------------------------
-(define 2nd-sub-exp
-  (lambda (aexp)
-    (car (cdr (cdr aexp)))))
-; ------------------------------
-
-; ------------------------------
 ;(define operator           ; for prefix notation (+ n m)
 ;  (lambda (aexp)
 ;    (car aexp)))
 ; ------------------------------
 
 ; ------------------------------
+(define 1st-sub-exp           ; for infix notation (n + m)
+  (lambda (aexp)
+    (car aexp)))
+; ------------------------------
+
+; ------------------------------
 (define operator           ; for infix notation (n + m)
   (lambda (aexp)
     (car (cdr aexp))))
+; ------------------------------
+
+; ------------------------------
+(define 2nd-sub-exp
+  (lambda (aexp)
+    (car (cdr (cdr aexp)))))
 ; ------------------------------
 
 ; ------------------------------
