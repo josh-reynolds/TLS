@@ -33,13 +33,13 @@
 ; ------------------------------
 
 ; ------------------------------
-;(define 1st-sub-exp           ; for prefix notation (+ n m)
+;(define 1st-sub-exp          ; for prefix notation (+ n m)
 ;  (lambda (aexp)
 ;    (car (cdr aexp))))
 ; ------------------------------
 
 ; ------------------------------
-;(define operator           ; for prefix notation (+ n m)
+;(define operator             ; for prefix notation (+ n m)
 ;  (lambda (aexp)
 ;    (car aexp)))
 ; ------------------------------
@@ -51,7 +51,7 @@
 ; ------------------------------
 
 ; ------------------------------
-(define operator           ; for infix notation (n + m)
+(define operator              ; for infix notation (n + m)
   (lambda (aexp)
     (car (cdr aexp))))
 ; ------------------------------
@@ -98,6 +98,41 @@
       (else (times n (pow n (sub1 m)))))))
 ; ------------------------------
 
+; ------------------------------
+(define sero?                 ; for 'parentheses representation' (), (()), (()()), (()()()),...
+  (lambda (n)
+    (null? n)))
+; ------------------------------
+
+; ------------------------------
+(define edd1                  ; for 'parentheses representation' (), (()), (()()), (()()()),...
+  (lambda (n)
+    (cons '() n)))
+; ------------------------------
+
+; ------------------------------
+(define zub1                  ; for 'parentheses representation' (), (()), (()()), (()()()),...
+  (lambda (n)
+    (cdr n)))
+; ------------------------------
+
+; ------------------------------
+(define o++                   ; for 'parentheses representation' (), (()), (()()), (()()()),...
+  (lambda (n m)               ; text overwrites the previous definition, but I want to keep both
+    (cond
+      ((sero? m) n)
+      (else (edd1 (o++ n (zub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define lat?
+  (lambda (l)
+    (cond
+      ((null? l) #t)
+      ((atom? (car l)) (lat? (cdr l)))
+      (else #f))))
+; ------------------------------
+
 (define list1
   (list '1 '+ (list '3 '^ '4)))
 
@@ -111,3 +146,8 @@
 
 (define list4
   (list '+ 1 3))
+
+(define sero '())             ; for 'parentheses representation' (), (()), (()()), (()()()),...
+(define wun (edd1 sero))
+(define tiw (edd1 (edd1 sero)))
+(define tre (edd1 (edd1 (edd1 sero))))
