@@ -9,3 +9,73 @@
   (lambda (x)
     (and (not (pair? x)) (not (null? x)))))
 ; ------------------------------
+
+; ------------------------------
+(define set?
+  (lambda (lat)
+    (cond
+      ((null? lat) #t)
+      ((member? (car lat) (cdr lat)) #f)
+      (else (set? (cdr lat))))))
+; ------------------------------
+
+; ------------------------------
+(define member?               ; rewritten to use o-equal? instead of eq?
+  (lambda (a lat)
+    (cond
+      ((null? lat) #f)
+      ((o-equal? a (car lat)) #t)
+      (else (member? a (cdr lat))))))
+; ------------------------------
+
+; ------------------------------
+(define o-equal?              ; the text uses 'equal?' but this (and 'eq?)
+  (lambda (s1 s2)             ; is already defined
+    (cond
+      ((and (atom? s1)(atom? s2)) (equan? s1 s2))
+      ((or (atom? s1)(atom? s2)) #f)
+      (else (eqlist? s1 s2)))))
+; ------------------------------
+
+; ------------------------------
+(define eqlist?
+  (lambda (l1 l2)
+    (cond
+      ((and (null? l1)(null? l2)) #t)
+      ((or (null? l1)(null? l2)) #f)
+      (else (and (o-equal? (car l1)(car l2))
+                 (o-equal? (cdr l1)(cdr l2)))))))
+; ------------------------------
+
+; ------------------------------
+(define equan?
+  (lambda (a1 a2)
+    (cond
+      ((and (number? a1)(number? a2))(= a1 a2))
+      ((or (number? a1)(number? a2)) #f)
+      (else (eq? a1 a2)))))
+; ------------------------------
+
+; ------------------------------
+(define makeset
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((member? (car lat) (cdr lat)) (makeset (cdr lat)))
+      (else (cons (car lat) (makeset (cdr lat)))))))
+; ------------------------------
+
+(define list1
+  (list 'apple 'peaches 'apple 'plum))
+
+(define list2
+  (list 'apples 'peaches 'pears 'plums))
+
+(define list3
+  (list 'apple 3 'pear 4 9 'apple 3 4))
+
+(define list4
+  (list 'apple 3 'pear 4))
+
+(define list5
+  (list 'apple 'peach 'pear 'peach 'plum 'apple 'lemon 'peach))
