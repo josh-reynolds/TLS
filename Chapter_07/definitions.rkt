@@ -92,6 +92,20 @@
 ; ------------------------------
 
 ; ------------------------------
+(define subset2?              ; alternate version using 'and'
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) #t)
+      (else (and (member? (car set1) set2)
+                 (subset2? (cdr set1) set2))))))
+; ------------------------------
+
+; ------------------------------
+(define eqset?
+  (lambda (set1 set2)
+    (cond
+      (else (and (subset2? set1 set2)
+                 (subset2? set2 set1))))))
 ; ------------------------------
 
 (define list1
@@ -114,3 +128,9 @@
 
 (define list7
   (list 5 'hamburgers 2 'pieces 'fried 'chicken 'and 'light 'duckling 'wings))
+
+(define list8
+  (list 6 'large 'chickens 'with 'wings))
+
+(define list9
+  (list 6 'chickens 'with 'large 'wings))
