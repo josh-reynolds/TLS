@@ -65,6 +65,23 @@
       (else (cons (car lat) (makeset (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define makeset2              ; alternate version using multirember
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      (else (cons (car lat)(makeset2 (multirember (car lat)(cdr lat))))))))
+; ------------------------------
+
+; ------------------------------
+(define multirember           ; rewritten to use o-equal? instead of eq?
+  (lambda (a lat)
+    (cond
+      ((null? lat) '())
+      ((o-equal? a (car lat)) (multirember a (cdr lat)))
+      (else (cons (car lat) (multirember a (cdr lat)))))))
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
