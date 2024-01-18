@@ -82,6 +82,18 @@
       (else (cons (car lat) (multirember a (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define subset?
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) #t)
+      ((member? (car set1) set2) (subset? (cdr set1) set2))
+      (else #f))))
+; ------------------------------
+
+; ------------------------------
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
@@ -96,3 +108,9 @@
 
 (define list5
   (list 'apple 'peach 'pear 'peach 'plum 'apple 'lemon 'peach))
+
+(define list6
+  (list 5 'chicken 'wings))
+
+(define list7
+  (list 5 'hamburgers 2 'pieces 'fried 'chicken 'and 'light 'duckling 'wings))
