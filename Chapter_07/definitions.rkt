@@ -103,9 +103,26 @@
 ; ------------------------------
 (define eqset?
   (lambda (set1 set2)
+    (and (subset2? set1 set2)
+         (subset2? set2 set1))))
+; ------------------------------
+
+; ------------------------------
+(define intersect?
+  (lambda (set1 set2)
     (cond
-      (else (and (subset2? set1 set2)
-                 (subset2? set2 set1))))))
+      ((null? set1) #f)
+      ((member? (car set1) set2) #t)
+      (else (intersect? (cdr set1) set2)))))
+; ------------------------------
+
+; ------------------------------
+(define intersect2?           ; alternate version using 'or'
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) #f)
+      (else (or (member? (car set1) set2)
+                (intersect2? (cdr set1) set2))))))
 ; ------------------------------
 
 (define list1
@@ -134,3 +151,9 @@
 
 (define list9
   (list 6 'chickens 'with 'large 'wings))
+
+(define list10
+  (list 'stewed 'tomatoes 'and 'macaroni))
+
+(define list11
+  (list 'macaroni 'and 'cheese))
