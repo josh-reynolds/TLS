@@ -143,6 +143,24 @@
       (else (cons (car set1) (union (cdr set1) set2))))))
 ; ------------------------------
 
+; ------------------------------
+(define setdiff               ; in the text they name this one 'xxx'
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) '())
+      ((member? (car set1) set2) (setdiff (cdr set1) set2))
+      (else (cons (car set1) (setdiff (cdr set1) set2))))))
+; ------------------------------
+
+; ------------------------------
+(define intersectall
+  (lambda (l-set)
+    (cond
+      ((null? (cdr l-set)) (car l-set))
+      (else (intersect (car l-set)
+                       (intersectall (cdr l-set)))))))
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
@@ -178,3 +196,14 @@
 
 (define list12
   (list 'stewed 'tomatoes 'and 'macaroni 'casserole))
+
+(define list13
+  (list (list 'a 'b 'c)
+        (list 'c 'a 'd 'e)
+        (list 'e 'f 'g 'h 'a 'b)))
+
+(define list14
+  (list (list 6 'pears 'and)
+        (list 3 'peaches 'and 6 'peppers)
+        (list 8 'pears 'and 6 'plums)
+        (list 'and 6 'prunes 'with 'some 'apples)))
