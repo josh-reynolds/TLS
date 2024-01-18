@@ -125,6 +125,24 @@
                 (intersect2? (cdr set1) set2))))))
 ; ------------------------------
 
+; ------------------------------
+(define intersect
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) '())
+      ((member? (car set1) set2) (cons (car set1) (intersect (cdr set1) set2)))
+      (else (intersect (cdr set1) set2)))))
+; ------------------------------
+
+; ------------------------------
+(define union
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) set2)
+      ((member? (car set1) set2) (union (cdr set1) set2))
+      (else (cons (car set1) (union (cdr set1) set2))))))
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
@@ -157,3 +175,6 @@
 
 (define list11
   (list 'macaroni 'and 'cheese))
+
+(define list12
+  (list 'stewed 'tomatoes 'and 'macaroni 'casserole))
