@@ -172,6 +172,30 @@
       (else #f))))
 ; ------------------------------
 
+; ------------------------------
+(define first
+  (lambda (p)
+    (car p)))
+; ------------------------------
+
+; ------------------------------
+(define second
+  (lambda (p)
+    (car (cdr p))))
+; ------------------------------
+
+; ------------------------------
+(define build
+  (lambda (s1 s2)
+    (cons s1 (cons s2 '()))))
+; ------------------------------
+
+; ------------------------------
+(define third
+  (lambda (l)
+    (car (cdr (cdr l)))))
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
@@ -218,3 +242,22 @@
         (list 3 'peaches 'and 6 'peppers)
         (list 8 'pears 'and 6 'plums)
         (list 'and 6 'prunes 'with 'some 'apples)))
+
+(define list15
+  (list 'apples 'peaches 'pumpkin 'pie))
+
+(define list16
+  (list (list 'apples 'peaches)
+        (list 'pumpkin 'pie)
+        (list 'apples 'peaches)))
+
+(define list17
+  (list (list 'apples 'peaches)
+        (list 'pumpkin 'pie)))
+
+(define list18
+  (list (list 4 3)
+        (list 4 2)
+        (list 7 6)
+        (list 6 2)
+        (list 3 4)))
