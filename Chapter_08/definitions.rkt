@@ -47,6 +47,27 @@
 (define rember-eq? (rember-f2 eq?))
 ; ------------------------------
 
+; ------------------------------
+(define insertL-f             ; interactions pane will lowercase to 'insertl-f'
+  (lambda (test?)
+    (lambda (new old l)
+      (cond
+        ((null? l) '())
+        ((test? old (car l)) (cons new (cons (car l) (cdr l))))
+        (else (cons (car l) ((insertL-f test?) new old (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+(define insertR-f               ; interactions pane will lowercase to 'insertl-f'
+  (lambda (test?)
+    (lambda (new old l)
+    (cond
+      ((null? l) '())
+      ((test? old (car l)) (cons (car l) (cons new (cdr l))))
+      (else (cons (car l) ((insertR-f test?) new old (cdr l))))))))
+; ------------------------------
+
+
 
 (define list1
   (list 6 2 5 3))
