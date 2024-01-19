@@ -226,6 +226,34 @@
            (first p))))
 ; ------------------------------
 
+; ------------------------------
+(define fullfun?              ; their definition differs - they assume the input
+  (lambda (rel)               ; is a fun instead of a rel, so only need the second clause
+    (and (fun? rel)
+         (fun? (revrel rel)))))
+; ------------------------------
+
+; ------------------------------
+(define fullfun2?             ; text version, assumes input is a fun
+  (lambda (fun)
+    (set? (seconds fun))))
+; ------------------------------
+
+; ------------------------------
+(define seconds
+  (lambda (l)
+    (cond
+      ((null? l) '())
+      (else (cons (car (cdr (car l)))
+                  (seconds (cdr l)))))))
+; ------------------------------
+
+; ------------------------------
+(define one-to-one?           ; a third version of fullfun? from the text
+  (lambda (fun)               ; same test as my version above, but assumes input is a fun
+    (fun? (revrel fun))))
+; ------------------------------
+
 (define list1
   (list 'apple 'peaches 'apple 'plum))
 
@@ -296,3 +324,31 @@
   (list (list 8 'a)
         (list 'pumpkin 'pie)
         (list 'got 'sick)))
+
+(define list20
+  (list (list 8 3)
+        (list 4 2)
+        (list 7 6)
+        (list 6 2)
+        (list 3 4)))
+
+(define list21
+  (list (list 8 3)
+        (list 4 8)
+        (list 7 6)
+        (list 6 2)
+        (list 3 4)))
+
+(define list22
+  (list (list 'grape 'raisin)
+        (list 'plum 'prune)
+        (list 'stewed 'prune)))
+
+(define list23
+  (list (list 'grape 'raisin)
+        (list 'plum 'prune)
+        (list 'stewed 'grape)))
+
+(define list24
+  (list (list 'chocolate 'chip)
+        (list 'doughy 'cookie)))
