@@ -114,6 +114,53 @@
      (cons old (cons new l)))))
 ; ------------------------------
 
+; ------------------------------
+(define subst
+  (lambda (new old l)
+    (cond
+      ((null? l) '())
+      ((eq? old (car l))(cons new (cdr l)))
+      (else (cons (car l)(subst new old (cdr l)))))))
+; ------------------------------
+
+; ------------------------------
+(define seqS                  ; interactions pane will lowercase to seqr
+  (lambda (new old l)
+    (cons new l)))
+; ------------------------------
+
+; ------------------------------
+(define subst2                ; redefining to use insert-g
+  (insert-g seqS))
+; ------------------------------
+
+; ------------------------------
+(define seqrem
+  (lambda (new old l) l))
+; ------------------------------
+
+; ------------------------------
+(define rember2               ; text names this yyy, but it is another version of rember
+  (lambda (a l)
+    ((insert-g seqrem) #f a l)))
+; ------------------------------
+
+;; working through example from text -------------------
+;(rember2 'sausage list6)
+;((insert-g seqrem) #f 'sausage list6)
+;((null? list6) #f)
+;((eq? 'sausage 'pizza) #f)
+;(cons 'pizza ((insert-g seqrem) #f 'sausage (list 'with 'sausage 'and 'bacon)))
+;             ((null? (list 'with 'sausage 'and 'bacon)) #f)
+;             ((eq? 'sausage 'with) #f)
+;             (cons 'with ((insert-g seqrem) #f 'sausage (list 'sausage 'and 'bacon)))
+;                         ((null? (list 'sausage 'and 'bacon)) #f)
+;                         ((eq? 'sausage 'sausage) #t)(seqrem #f 'sausage (list 'and 'bacon))
+;                                                     (list 'and 'bacon)
+;             (list 'with 'and 'bacon)
+;(list 'pizza 'with 'and 'bacon)
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
@@ -131,3 +178,6 @@
 
 (define list5
   (list 'shrimp 'salad 'and 'tuna 'salad))
+
+(define list6
+  (list 'pizza 'with 'sausage 'and 'bacon))
