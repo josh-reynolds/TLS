@@ -237,6 +237,36 @@
       (else pow))))
 ; ------------------------------
 
+; ------------------------------
+(define value2                ; rewritten to use atom-to-function
+  (lambda (nexp)              ; text overwrites but I want to preserve the original
+    (cond                     
+      ((atom? nexp) nexp)
+      (else ((atom-to-function (operator nexp)) (value2 (1st-sub-exp nexp))
+                                                (value2 (2nd-sub-exp nexp)))))))
+; ------------------------------
+
+; ------------------------------
+(define multirember
+  (lambda (a lat)
+    (cond
+      ((null? lat) '())
+      ((eq? a (car lat)) (multirember a (cdr lat)))
+      (else (cons (car lat)
+                  (multirember a (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define multirember-f
+  (lambda (test?)
+    (lambda (a lat)
+      (cond
+        ((null? lat) '())
+        ((test? a (car lat)) ((multirember-f test?) a (cdr lat)))
+        (else (cons (car lat)
+                    ((multirember-f test?) a (cdr lat))))))))
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
@@ -257,3 +287,9 @@
 
 (define list6
   (list 'pizza 'with 'sausage 'and 'bacon))
+
+(define list7
+  (list '+ 5 3))
+
+(define list8
+  (list 'shrimp 'salad 'tuna 'salad 'and 'tuna))
