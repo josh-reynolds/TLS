@@ -278,6 +278,43 @@
 ; ------------------------------
 
 ; ------------------------------
+(define multiremberT          ; interactions pane will lowercase to multirembert
+  (lambda (test? lat)
+    (cond
+      ((null? lat) '())
+      ((test? (car lat)) (multiremberT test? (cdr lat)))
+      (else (cons (car lat)
+                  (multiremberT test? (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define multirember&co
+  (lambda (a lat col)
+    (cond
+      ((null? lat) (col '() '()))
+      ((eq? a (car lat)) (multirember&co a
+                                         (cdr lat)
+                                         (lambda (newlat seen)
+                                           (col newlat
+                                                (cons (car lat) seen)))))
+      (else (multirember&co a
+                            (cdr lat)
+                            (lambda (newlat seen)
+                              (col (cons (car lat) newlat)
+                                   seen)))))))
+; ------------------------------
+
+; ------------------------------
+(define a-friend
+  (lambda (x y)
+    (null? y)))
+; ------------------------------
+
+; ------------------------------
+(define new-friend            ; expanding out the example problem
+  (lambda (newlat seen)
+    (a-friend newlat
+              (cons 'tuna seen))))
 ; ------------------------------
 
 (define list1
@@ -306,3 +343,6 @@
 
 (define list8
   (list 'shrimp 'salad 'tuna 'salad 'and 'tuna))
+
+(define list9
+  (list 'strawberries 'tuna 'and 'swordfish))
