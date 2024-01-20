@@ -161,6 +161,82 @@
 ;(list 'pizza 'with 'and 'bacon)
 ; ------------------------------
 
+; ------------------------------
+(define value
+  (lambda (nexp)              
+    (cond                     
+      ((atom? nexp) nexp)
+      ((eq? (operator nexp) '+) (o+ (value (1st-sub-exp nexp))
+                                    (value (2nd-sub-exp nexp))))
+      ((eq? (operator nexp) 'x) (times (value (1st-sub-exp nexp))
+                                       (value (2nd-sub-exp nexp))))
+      (else (pow (value (1st-sub-exp nexp))
+                 (value (2nd-sub-exp nexp)))))))
+; ------------------------------
+
+; ------------------------------
+(define 1st-sub-exp          ; for prefix notation (+ n m)
+  (lambda (aexp)
+    (car (cdr aexp))))
+; ------------------------------
+
+; ------------------------------
+(define operator             ; for prefix notation (+ n m)
+  (lambda (aexp)
+    (car aexp)))
+; ------------------------------
+
+; ------------------------------
+(define 2nd-sub-exp
+  (lambda (aexp)
+    (car (cdr (cdr aexp)))))
+; ------------------------------
+
+; ------------------------------
+(define add1
+  (lambda (n)
+    (+ n 1)))
+; ------------------------------
+
+; ------------------------------
+(define sub1
+  (lambda (n)
+    (- n 1)))
+; ------------------------------
+
+; ------------------------------
+(define o+
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (add1 (o+ n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define times                 ; text uses typographic times symbol, but 'x' is easily confused
+  (lambda (n m)               ; with a variable, and '*' is a primitive operation...
+    (cond
+      ((zero? m) 0)
+      (else (o+ n (times n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define pow                   ; text uses typographic up-arrow
+  (lambda (n m)               ; 'expt' is the defined procedure for this same function
+    (cond
+      ((zero? m) 1)
+      (else (times n (pow n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define atom-to-function      ; variable name and times symbol mildly confusing here...
+  (lambda (x)
+    (cond
+      ((eq? x '+) o+)
+      ((eq? x 'x) times)
+      (else pow))))
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
