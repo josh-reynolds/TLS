@@ -317,6 +317,66 @@
               (cons 'tuna seen))))
 ; ------------------------------
 
+; ------------------------------
+(define latest-friend         ; expanding out the example problem
+  (lambda (newlat seen)
+    (a-friend (cons 'and newlat) seen)))
+; ------------------------------
+
+; ------------------------------
+(define another-friend        ; expanding out the example problem
+  (lambda (newlat seen)
+    (latest-friend newlat (cons 'tuna seen))))
+; ------------------------------
+
+; ------------------------------
+(define last-friend
+  (lambda (x y)
+    (length x)))
+; ------------------------------
+
+;; working through examples from text -------------------
+;(multirember&co 'tuna '() a-friend)
+;  (null? '()) #t
+;    (a-friend '() '())
+;      (null? '()) #t
+; #t
+; ------------------------------
+;(multirember&co 'tuna (list 'tuna) a-friend)
+;  (null? (list 'tuna)) #f
+;  (eq? 'tuna (car (list 'tuna))) #t
+;    (multirember&co 'tuna (cdr (list 'tuna)) (lambda (newlat seen) (a-friend newlat (cons (car (list 'tuna)) seen))))
+;    (multirember&co 'tuna '() (lambda (newlat seen) (a-friend newlat (cons 'tuna seen))))
+;    (multirember&co 'tuna '() new-friend)
+;      (null? '()) #t
+;        (new-friend '() '())
+;          (a-friend '() (cons 'tuna '()))
+;          (a-friend '() (list 'tuna))
+;            (null? (list 'tuna)) #f
+; #f
+; ------------------------------
+;(multirember&co 'tuna (list 'and 'tuna) a-friend)
+;  (null? (list 'and 'tuna) #f
+;  (eq? 'tuna (car (list 'and 'tuna)))
+;  (eq? 'tuna 'and 'tuna) #f
+;  (else (multirember&co 'tuna (cdr (list 'and 'tuna)) (lambda (newlat seen) (a-friend (cons (car (list 'and 'tuna)) newlat) seen))))
+;  (else (multirember&co 'tuna (list 'tuna) (lambda (newlat seen) (a-friend (cons 'and newlat) seen))))
+;  (else (multirember&co 'tuna (list 'tuna) latest-friend))
+;          (null? (list 'tuna)) #f
+;          (eq? 'tuna (car (list 'tuna))) #t
+;            (multirember&co 'tuna (cdr (list 'tuna)) (lambda (newlat seen) (latest-friend newlat (cons (car (list 'tuna)) seen))))
+;            (multirember&co 'tuna '() (lambda (newlat seen) (latest-friend newlat (cons 'tuna seen))))
+;            (multirember&co 'tuna '() (lambda (newlat seen) another-friend))
+;              (null? '()) #t
+;                (another-friend '() '())
+;                  (latest-friend '() (cons 'tuna '()))
+;                  (latest-friend '() (list 'tuna))
+;                    (a-friend (cons 'and '()) (list 'tuna))
+;                    (a-friend (list 'and) (list 'tuna))
+;                      (null? (list 'tuna)) #f
+; #f
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
