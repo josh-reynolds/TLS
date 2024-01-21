@@ -344,7 +344,8 @@
 ; ------------------------------
 ;(multirember&co 'tuna (list 'tuna) a-friend)
 ;  (null? (list 'tuna)) #f
-;  (eq? 'tuna (car (list 'tuna))) #t
+;  (eq? 'tuna (car (list 'tuna)))
+;  (eq? 'tuna 'tuna) #t
 ;    (multirember&co 'tuna (cdr (list 'tuna)) (lambda (newlat seen) (a-friend newlat (cons (car (list 'tuna)) seen))))
 ;    (multirember&co 'tuna '() (lambda (newlat seen) (a-friend newlat (cons 'tuna seen))))
 ;    (multirember&co 'tuna '() new-friend)
@@ -358,7 +359,7 @@
 ;(multirember&co 'tuna (list 'and 'tuna) a-friend)
 ;  (null? (list 'and 'tuna) #f
 ;  (eq? 'tuna (car (list 'and 'tuna)))
-;  (eq? 'tuna 'and 'tuna) #f
+;  (eq? 'tuna 'and) #f
 ;  (else (multirember&co 'tuna (cdr (list 'and 'tuna)) (lambda (newlat seen) (a-friend (cons (car (list 'and 'tuna)) newlat) seen))))
 ;  (else (multirember&co 'tuna (list 'tuna) (lambda (newlat seen) (a-friend (cons 'and newlat) seen))))
 ;  (else (multirember&co 'tuna (list 'tuna) latest-friend))
@@ -375,6 +376,49 @@
 ;                    (a-friend (list 'and) (list 'tuna))
 ;                      (null? (list 'tuna)) #f
 ; #f
+; ------------------------------
+;(multirember&co 'tuna (list 'strawberries 'tuna 'and 'swordfish) last-friend)
+;  (null? (list 'strawberries 'tuna 'and 'swordfish)) #f
+;  (eq? 'tuna (car (list 'strawberries 'tuna 'and 'swordfish))
+;  (eq? 'tuna 'strawberries) #f
+;  (else (multirember&co 'tuna (cdr (list 'strawberries 'tuna 'and 'swordfish))
+;                        (lambda (newlat seen) (last-friend (cons (car (list 'strawberries 'tuna 'and 'swordfish)) newlat) seen)))
+;  (else (multirember&co 'tuna (list 'tuna 'and 'swordfish)
+;                        (lambda (newlat seen) (last-friend (cons 'strawberries newlat) seen)))                ;;;; ANON-1
+;    (null? (list 'tuna 'and 'swordfish)) #f
+;    (eq? 'tuna (car (list 'tuna 'and 'swordfish))
+;    (eq? 'tuna 'tuna) #t
+;      (multirember&co 'tuna (cdr (list 'tuna 'and 'swordfish))
+;                      (lambda (newlat seen) (ANON-1 newlat (cons (car (list 'tuna 'and 'swordfish) seen))))
+;      (multirember&co 'tuna (list 'and 'swordfish)
+;                      (lambda (newlat seen) (ANON-1 newlat (cons 'tuna seen))))                               ;;;; ANON-2
+;        (null? (list 'and 'swordfish)) #f
+;        (eq? 'tuna (car (list 'and 'swordfish))
+;        (eq? 'tuna 'and) #f
+;        (else (multirember&co 'tuna (cdr (list 'and 'swordfish))
+;                              (lambda (newlat seen) (ANON-2 (cons (car (list 'and 'swordfish)) newlat) seen))))
+;        (else (multirember&co 'tuna (list 'swordfish)
+;                              (lambda (newlat seen) (ANON-2 (cons 'and newlat) seen))))                        ;;;; ANON-3
+;          (null? (list 'swordfish)) #f
+;          (eq? 'tuna (car (list 'swordfish)))
+;          (eq? 'tuna 'swordfish) #f
+;          (else (multirember&co 'tuna (cdr (list 'swordfish))
+;                                (lambda (newlat seen) (ANON-3 (cons (car (list 'swordfish)) newlat) seen ))))
+;          (else (multirember&co 'tuna '()
+;                                (lambda (newlat seen) (ANON-3 (cons 'swordfish newlat) seen ))))    ;;;; ANON-4
+;            (null? '()) #t
+;              (ANON-4 '() '())
+;                (ANON-3 (cons 'swordfish '()) '() ))))
+;                (ANON-3 (list 'swordfish) '() ))))
+;                  (ANON-2 (cons 'and (list 'swordfish)) '()))
+;                  (ANON-2 (list 'and 'swordfish) '())
+;                    (ANON-1 (list 'and 'swordfish) (cons 'tuna '()))
+;                    (ANON-1 (list 'and 'swordfish) (list 'tuna))
+;                      (last-friend (cons 'strawberries (list 'and 'swordfish)) (list 'tuna))
+;                      (last-friend (list 'strawberries 'and 'swordfish) (list 'tuna))
+;                        (length (list 'strawberries 'and 'swordfish))
+;                        3
+; 3
 ; ------------------------------
 
 (define list1
