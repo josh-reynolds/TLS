@@ -513,6 +513,45 @@
                   (evens-only* (cdr l)))))))
 ; ------------------------------
 
+; ------------------------------
+(define times-list
+  (lambda (lon)
+    (cond
+      ((null? lon) 1)
+      (else (times (car lon) (times-list (cdr lon)))))))
+; ------------------------------
+
+; ------------------------------
+(define evens-only*&co
+  (lambda (l col)
+    (cond
+      ((null? l) (col '() 1 0))
+      ((atom? (car l))
+       (cond
+         ((even? (car l)) (evens-only*&co (cdr l)
+                                          (lambda (newl E O) (col (cons (car l) newl)
+                                                                  (times (car l) E)
+                                                                  O))))
+         (else (evens-only*&co (cdr l)
+                               (lambda (newl E O) (col newl
+                                                       E
+                                                       (o+ (car l) O)))))))
+      (else (evens-only*&co (car l)
+                            (lambda (al aE aO) (evens-only*&co (cdr l)
+                                                               (lambda (dl dE dO) (col (cons al dl)
+                                                                                       (times aE dE)
+                                                                                       (o+ aO dO))))))))))
+; ------------------------------
+
+; ------------------------------
+(define the-last-friend
+  (lambda (newl product sum)
+    (cons sum
+          (cons product
+                newl))))
+; ------------------------------
+
+
 (define list1
   (list 6 2 5 3))
 
