@@ -421,6 +421,34 @@
 ; 3
 ; ------------------------------
 
+; ------------------------------
+(define multiinsertL          ; interactions pane will lowercase to multiinsertl
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons new (cons (car lat) (multiinsertL new old (cdr lat)))))
+      (else (cons (car lat) (multiinsertL new old (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define multiinsertR          ; interactions pane will lowercase to multiinsertr
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? old (car lat)) (cons (car lat) (cons new (multiinsertR new old (cdr lat)))))
+      (else (cons (car lat) (multiinsertR new old (cdr lat)))))))
+; ------------------------------
+
+; ------------------------------
+(define multiinsertLR         ; interactions pane will lowercase to multiinsertlr
+  (lambda (new oldL oldR lat)
+    (cond
+      ((null? lat) '())
+      ((eq? oldL (car lat)) (cons new (cons oldL (multiinsertLR new oldL oldR (cdr lat)))))
+      ((eq? oldR (car lat)) (cons oldR (cons new (multiinsertLR new oldL oldR (cdr lat)))))
+      (else (cons (car lat) (multiinsertLR new oldL oldR (cdr lat)))))))
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
