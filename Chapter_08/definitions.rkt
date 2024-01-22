@@ -449,6 +449,25 @@
       (else (cons (car lat) (multiinsertLR new oldL oldR (cdr lat)))))))
 ; ------------------------------
 
+; ------------------------------
+(define multiinsertLR&co      ; interactions pane will lowercase to multiinsertlr&co
+  (lambda (new oldL oldR lat col)
+    (cond
+      ((null? lat) (col '() 0 0))
+      ((eq? oldL (car lat)) (multiinsertLR&co new oldL oldR (cdr lat)
+                                              (lambda (newlat L R) (col (cons new (cons oldL newlat)) (add1 L) R))))
+      ((eq? oldR (car lat)) (multiinsertLR&co new oldL oldR (cdr lat)
+                                              (lambda (newlat L R) (col (cons oldR (cons new newlat)) L (add1 R)))))
+      (else (multiinsertLR&co new oldL oldR (cdr lat)
+                              (lambda (newlat L R) (col (cons (car lat) newlat) L R)))))))
+; ------------------------------
+
+; ------------------------------
+(define multicol              ; to give visible output, text doesn't include a sample col here
+  (lambda (lat L R)
+    (cons (cons lat L) R)))
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
@@ -478,3 +497,6 @@
 
 (define list9
   (list 'strawberries 'tuna 'and 'swordfish))
+
+(define list10
+  (list 'chips 'and 'fish 'or 'fish 'and 'chips))
