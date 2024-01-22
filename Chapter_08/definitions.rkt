@@ -468,6 +468,51 @@
     (cons (cons lat L) R)))
 ; ------------------------------
 
+; ------------------------------
+(define even?                 ; built-in primitive '/' produces fractional results
+  (lambda (n)                 ; this approach needs integer division to work properly - importing from Chapter 4
+    (= (times (divide n 2) 2) n)))
+; ------------------------------
+
+; ------------------------------
+(define divide                ; text uses typographic division symbol
+  (lambda (n m)               ; 'quotient' is the defined procedure for this same function
+    (cond
+      ((lt? n m) 0)
+      (else (add1 (divide (o- n m) m))))))
+; ------------------------------
+
+; ------------------------------
+(define lt?                   ; text uses '<' but this is already a defined primitive operation
+  (lambda (n m)
+    (cond
+      ((zero? m) #f)
+      ((zero? n) #t)
+      (else (lt? (sub1 n) (sub1 m))))))
+; ------------------------------
+
+; ------------------------------
+(define o-
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (sub1 (o- n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define evens-only*
+  (lambda (l)
+    (cond
+      ((null? l) '())
+      ((atom? (car l))
+       (cond 
+         ((even? (car l)) (cons (car l)
+                                (evens-only* (cdr l))))
+         (else (evens-only* (cdr l)))))
+      (else (cons (evens-only* (car l))
+                  (evens-only* (cdr l)))))))
+; ------------------------------
+
 (define list1
   (list 6 2 5 3))
 
@@ -500,3 +545,12 @@
 
 (define list10
   (list 'chips 'and 'fish 'or 'fish 'and 'chips))
+
+(define list11
+  (list (list 9 1 2 8)
+        3
+        10
+        (list (list 9 9)
+              7
+              6)
+        2))
