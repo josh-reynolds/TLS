@@ -135,7 +135,41 @@
       ((zero? m) n)
       (else (add1 (o+ n (sub1 m)))))))
 ; ------------------------------
-     
+
+; ------------------------------
+(define times                 ; text uses typographic times symbol, but 'x' is easily confused
+  (lambda (n m)               ; with a variable, and '*' is a primitive operation...
+    (cond
+      ((zero? m) 0)
+      (else (o+ n (times n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define weight*
+  (lambda (pora)
+    (cond
+    ((atom? pora) 1)
+    (else (o+ (times (weight* (first pora)) 2)
+              (weight* (second pora)))))))          
+; ------------------------------
+
+; ------------------------------
+(define shuffle
+  (lambda (pora)
+    (cond
+      ((atom? pora) pora)
+      ((a-pair? (first pora)) (shuffle (revpair pora)))
+      (else (build (first pora)
+                   (shuffle (second pora)))))))
+; ------------------------------
+
+; ------------------------------
+(define revpair
+  (lambda (p)
+    (build (second p)
+           (first p))))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
@@ -149,5 +183,8 @@
   (list (list 'a 'b)
         (list 'c 'd)))
 
+(define list5
+  (list 'a
+        (list 'b 'c)))
 
 
