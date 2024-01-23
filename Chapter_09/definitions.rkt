@@ -66,13 +66,88 @@
     (eternity x)))
 ; ------------------------------
 
+; ------------------------------
+(define shift
+  (lambda (pair)
+    (build (first (first pair))
+           (build (second (first pair))
+                  (second pair)))))
+; ------------------------------
+
+; ------------------------------
+(define first
+  (lambda (p)
+    (car p)))
+; ------------------------------
+
+; ------------------------------
+(define second
+  (lambda (p)
+    (car (cdr p))))
+; ------------------------------
+
+; ------------------------------
+(define build
+  (lambda (s1 s2)
+    (cons s1 (cons s2 '()))))
+; ------------------------------
+
+; ------------------------------
+(define a-pair?
+  (lambda (x)
+    (cond
+      ((atom? x) #f)
+      ((null? x) #f)
+      ((null? (cdr x)) #f)
+      ((null? (cdr (cdr x))) #t)
+      (else #f))))
+; ------------------------------
+
+; ------------------------------
+(define align
+  (lambda (pora)
+    (cond
+      ((atom? pora) pora)
+      ((a-pair? (first pora)) (align (shift pora)))
+      (else (build (first pora)
+                   (align (second pora)))))))
+; ------------------------------
+
+; ------------------------------
+(define length*
+  (lambda (pora)
+    (cond
+      ((atom? pora) 1)
+      (else (o+ (length* (first pora))
+                (length* (second pora)))))))
+; ------------------------------
+
+; ------------------------------
+(define add1
+  (lambda (n)
+    (+ n 1)))
+; ------------------------------
+
+; ------------------------------
+(define o+
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (add1 (o+ n (sub1 m)))))))
+; ------------------------------
+     
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
 (define list2
   (list 6 2 'grits 'caviar 5 7 3))
 
+(define list3
+  (list (list 'a 'b) 'c))
 
+(define list4
+  (list (list 'a 'b)
+        (list 'c 'd)))
 
 
 
