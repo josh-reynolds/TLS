@@ -60,6 +60,11 @@
 ; #t
 ; ------------------------------
 
+; ------------------------------
+(define eternity              ; infinite recursion !!!
+  (lambda (x)
+    (eternity x)))
+; ------------------------------
 
 (define list1
   (list 6 2 4 'caviar 5 7 3))
