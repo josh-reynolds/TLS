@@ -283,6 +283,31 @@
 ; Kurt Gödel (https://en.wikipedia.org/wiki/Kurt_Gödel)
 ; ------------------------------
 
+; ------------------------------
+(define length
+  (lambda (l)
+    (cond
+      ((null? l) 0)
+      (else (add1 (length (cdr l)))))))
+; ------------------------------
+
+; ------------------------------
+(lambda (l)                   ; length-sub-zero
+  (cond
+    ((null? l) 0)
+    (else (add1 (eternity (cdr l))))))
+; ------------------------------
+
+; ------------------------------
+(lambda (l)                   ; length-sub-less-than-one
+  (cond
+    ((null? l) 0)
+    (else (add1 ((lambda (l)
+                   (cond
+                     ((null? l) 0)
+                     (else (add1 (eternity (cdr l)))))) (cdr l))))))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
