@@ -350,6 +350,72 @@
    eternity)))
 ; ------------------------------
 
+; ------------------------------
+((lambda (mk-length)          ; length-sub-zero
+  (mk-length eternity))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length-sub-less-than-one
+   (mk-length
+    (mk-length eternity)))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length-sub-less-than-two
+   (mk-length
+    (mk-length
+     (mk-length eternity))))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length-sub-less-than-three
+   (mk-length
+    (mk-length
+     (mk-length
+      (mk-length eternity)))))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length-sub-zero
+   (mk-length mk-length))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length-sub-zero
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (mk-length (cdr l))))))))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
