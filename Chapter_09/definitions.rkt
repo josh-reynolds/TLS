@@ -416,6 +416,35 @@
        (else (add1 (mk-length (cdr l))))))))
 ; ------------------------------
 
+; ------------------------------
+((lambda (mk-length)          ; length-sub-less-than-one
+   (mk-length mk-length))
+ (lambda (mk-length)          ; ANON-1
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 ((mk-length eternity) (cdr l))))))))
+; ------------------------------
+
+;; working out the example -----
+; (...above... (list 'apples))
+; ((length-sub-less-than-one ANON-1) (list 'apples))
+; ((ANON-1 ANON-1) (list 'apples))
+;
+; ... try bottom up substitution ...
+;
+; ((lambda (mk-length) (mk-length mk-length)
+;   (lambda ((list 'apples))
+;     (cond
+;       ((null? (list 'apples)) 0)
+;       (else (add1 ((mk-length eternity) '())))))))
+;
+; https://stackoverflow.com/questions/19720833/little-schemer-length0-and-mk-length
+; https://stackoverflow.com/questions/10499514/y-combinator-discussion-in-the-little-schemer
+;
+; good suggestion to try this in "Intermediate Student with Lambda" in the stepper
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
