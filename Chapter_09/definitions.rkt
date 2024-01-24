@@ -308,6 +308,48 @@
                      (else (add1 (eternity (cdr l)))))) (cdr l))))))
 ; ------------------------------
 
+; ------------------------------
+((lambda (length)             ; length-sub-zero
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))
+ eternity)
+; ------------------------------
+
+; ------------------------------
+((lambda (f)                   ; length-sub-less-than-one
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (f (cdr l)))))))
+ ((lambda (g)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (add1 (g (cdr l)))))))
+  eternity))
+; ------------------------------
+
+; ------------------------------
+((lambda (length)             ; length-sub-less-than-two
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))
+ ((lambda (length)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (add1 (length (cdr l)))))))
+  ((lambda (length)
+     (lambda (l)
+       (cond
+         ((null? l) 0)
+         (else (add1 (length (cdr l)))))))
+   eternity)))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
