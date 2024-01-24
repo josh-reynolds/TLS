@@ -170,6 +170,83 @@
            (first p))))
 ; ------------------------------
 
+;; working out the example -----
+; (shuffle list4)
+;   (atom? list4) #f
+;   (a-pair? (first list4))
+;   (a-pair? (list 'a 'b))
+;     (atom? (list 'a 'b)) #f
+;     (null? (list 'a 'b)) #f
+;     (null? (cdr (list 'a 'b)))
+;     (null? (list 'b)) #f
+;     (null? (cdr (cdr (list 'a 'b))))
+;     (null? '()) #t
+;   (a-pair? (list 'a 'b)) #t
+;     (shuffle (revpair list4))
+;     (shuffle (build (second list4) (first list4)))
+;     (shuffle (build (list 'c 'd) (list 'a 'b)))
+;     (shuffle (cons (list 'c 'd) (cons (list 'a 'b) '())))
+;     (shuffle (list (list 'c 'd) (list 'a 'b)))   # LIST-A
+;       (atom? LIST-A) #f
+;       (a-pair? (first LIST-A)
+;       (a-pair? (list 'c 'd))
+;         (atom? (list 'c 'd)) #f
+;         (null? (list 'c 'd)) #f
+;         (null? (cdr (list 'c 'd)))
+;         (null? (list 'd)) #f
+;         (null? (cdr (cdr (list 'c 'd))))
+;         (null? '()) #t
+;       (a-pair? (list 'c 'd))#t
+;         (shuffle (revpair LIST-A))
+;         (shuffle (build (second LIST-A) (first LIST-A)))
+;         (shuffle (build (list 'a 'b) (list 'c 'd)))
+;         (shuffle (cons (list 'a 'b) (cons (list 'c 'd) '())))
+;         (shuffle (list (list 'a 'b) (list 'c 'd)))   # list4
+; infinite recursion !!!
+; ------------------------------
+
+; ------------------------------
+(define C                     ; interactions pane will lowercase to c
+  (lambda (n)                 ; Lothar Collatz
+    (cond
+      ((one? n) 1)
+      (else
+       (cond
+         ((even? n) (C (divide n 2)))
+         (else (C (add1 (times 3 n)))))))))
+; ------------------------------
+
+; ------------------------------
+(define one?
+  (lambda (n)
+    (= n 1)))
+; ------------------------------
+
+; ------------------------------
+(define divide                ; text uses typographic division symbol
+  (lambda (n m)               ; 'quotient' is the defined procedure for this same function
+    (cond
+      ((lt? n m) 0)
+      (else (add1 (divide (o- n m) m))))))
+; ------------------------------
+
+; ------------------------------
+(define lt?                   ; text uses '<' but this is already a defined primitive operation
+  (lambda (n m)
+    (cond
+      ((zero? m) #f)
+      ((zero? n) #t)
+      (else (lt? (sub1 n) (sub1 m))))))
+; ------------------------------
+
+; ------------------------------
+(define o-
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (sub1 (o- n (sub1 m)))))))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
