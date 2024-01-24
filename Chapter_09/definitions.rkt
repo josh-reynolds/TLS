@@ -207,7 +207,7 @@
 
 ; ------------------------------
 (define C                     ; interactions pane will lowercase to c
-  (lambda (n)                 ; Lothar Collatz
+  (lambda (n)                 ; Lothar Collatz (https://en.wikipedia.org/wiki/Lothar_Collatz)
     (cond
       ((one? n) 1)
       (else
@@ -245,6 +245,42 @@
     (cond
       ((zero? m) n)
       (else (sub1 (o- n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+(define A                     ; interactions pane will lowercase to a
+  (lambda (n m)               ; Wilhelm Ackermann (https://en.wikipedia.org/wiki/Wilhelm_Ackermann)
+    (cond
+      ((zero? n) (add1 m))
+      ((zero? m) (A (sub1 n) 1))
+      (else (A (sub1 n)
+               (A n (sub1 m)))))))
+; ------------------------------
+
+; ------------------------------
+;(define will-stop?
+;  (lambda (f)
+;    ...))
+; ------------------------------
+
+; ------------------------------
+;(define last-try
+;  (lambda (x)
+;    (and (will-stop? last-try)
+;         (eternity x))))
+; ------------------------------
+
+;; working out the example -----
+; (last-try '())
+; (and (will-stop? last-try)
+;      (eternity '()))
+; EITHER
+; (and #f #f) #f
+; OR
+; (and #t #f) #f
+;
+; Alan Turing (https://en.wikipedia.org/wiki/Alan_Turing)
+; Kurt Gödel (https://en.wikipedia.org/wiki/Kurt_Gödel)
 ; ------------------------------
 
 (define list1
