@@ -445,6 +445,50 @@
 ; good suggestion to try this in "Intermediate Student with Lambda" in the stepper
 ; ------------------------------
 
+; ------------------------------
+((lambda (mk-length)          ; length
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 ((mk-length mk-length) (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+;((lambda (mk-length)          ; length - invalid version
+;   (mk-length mk-length))     ; increased memory to 1024 MB and still unable to evaluate this
+; (lambda (mk-length)          ; commenting out
+;   ((lambda (length)
+;      (lambda (l)
+;        (cond
+;          ((null? l) 0)
+;          (else (add1 (length (cdr l)))))))
+;    (mk-length mk-length))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 ((lambda (x)((mk-length mk-length) x)) (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+((lambda (mk-length)          ; length
+   (mk-length mk-length))
+ (lambda (mk-length)
+   ((lambda (length)
+      (lambda (l)
+        (cond
+          ((null? l) 0)
+          (else (add1 (length (cdr l)))))))
+   (lambda (x)((mk-length mk-length) x)))))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
