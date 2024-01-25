@@ -489,6 +489,37 @@
    (lambda (x)((mk-length mk-length) x)))))
 ; ------------------------------
 
+; ------------------------------
+((lambda (le)
+   ((lambda (mk-length)
+      (mk-length mk-length))
+    (lambda (mk-length)
+      (le (lambda (x)
+            ((mk-length mk-length) x))))))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+; ------------------------------
+
+; ------------------------------
+(lambda (le)
+  ((lambda (mk-length)
+     (mk-length mk-length))
+   (lambda (mk-length)
+     (le (lambda (x)
+           ((mk-length mk-length) x))))))
+; ------------------------------
+
+; ------------------------------
+(define Y                     ; Y Combinator (interactions pane will lowercase to 'y')
+  (lambda (le)                ; https://en.wikipedia.org/wiki/Fixed-point_combinator
+    ((lambda (f) (f f))
+     (lambda (f)
+       (le (lambda (x) ((f f) x)))))))
+; ------------------------------
+
 (define list1
   (list 6 2 4 'caviar 5 7 3))
 
