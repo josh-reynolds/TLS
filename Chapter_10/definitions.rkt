@@ -65,7 +65,68 @@
                                (lookup-in-table name (cdr table) table-f)))))))
 ; ------------------------------
 
+; ------------------------------
+(define expression-to-action
+  (lambda (e)
+    (cond
+      ((atom? e) (atom-to-action e))
+      (else (list-to-action e)))))
+; ------------------------------
 
+; ------------------------------
+(define atom-to-action
+  (lambda (e)
+    (cond
+      ((number? e) *const)
+      ((eq? e #t) *const)
+      ((eq? e #f) *const)
+      ((eq? e (quote cons)) *const)
+      ((eq? e (quote car)) *const)
+      ((eq? e (quote cdr)) *const)
+      ((eq? e (quote null?)) *const)
+      ((eq? e (quote eq?)) *const)
+      ((eq? e (quote atom?)) *const)
+      ((eq? e (quote zero?)) *const)
+      ((eq? e (quote add1)) *const)
+      ((eq? e (quote sub1)) *const)
+      ((eq? e (quote number?)) *const)
+      (else *identifier))))
+; ------------------------------
+
+; ------------------------------
+(define list-to-action
+  (lambda (e)
+    (cond
+      ((atom? (car e))
+       (cond
+         ((eq? (car e) (quote quote)) *quote)
+         ((eq? (car e) (quote lambda)) *lambda)
+         ((eq? (car e) (quote cond)) *cond)
+         (else *application)))
+      (else *application))))
+; ------------------------------
+
+; ------------------------------
+; PLACEHOLDERS TO ALLOW EVALUATION
+(define *const 'CONT)
+(define *identifier 'IDENTIFIER)
+(define *quote 'QUOTE)
+(define *lambda 'LAMBDA)
+(define *cond 'COND)
+(define *application 'APPLICATION)
+; ------------------------------
+
+; ------------------------------
+(define value
+  (lambda (e)
+    (meaning e (quote ()))))
+; ------------------------------
+
+; ------------------------------
+(define meaning
+  (lambda (e table)
+    ((expression-to-action e) e table)))
+; ------------------------------
 
 (define entry1
   (list (list 'appetizer 'entrée 'beverage)
