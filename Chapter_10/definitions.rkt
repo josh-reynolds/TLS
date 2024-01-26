@@ -108,9 +108,6 @@
 
 ; ------------------------------
 ; PLACEHOLDERS TO ALLOW EVALUATION
-(define *const 'CONT)
-(define *identifier 'IDENTIFIER)
-(define *quote 'QUOTE)
 (define *lambda 'LAMBDA)
 (define *cond 'COND)
 (define *application 'APPLICATION)
@@ -126,6 +123,38 @@
 (define meaning
   (lambda (e table)
     ((expression-to-action e) e table)))
+; ------------------------------
+
+; ------------------------------
+(define *const
+  (lambda (e table)
+    (cond
+      ((number? e) e)
+      ((eq? e #t) #t)
+      ((eq? e #f) #f)
+      (else (build (quote primitive) e)))))
+; ------------------------------
+
+; ------------------------------
+(define *quote
+  (lambda (e table)
+    (text-of e)))
+; ------------------------------
+
+; ------------------------------
+(define text-of second)
+; ------------------------------
+
+; ------------------------------
+(define *identifier
+  (lambda (e table)
+    (lookup-in-table e table initial-table)))
+; ------------------------------
+
+; ------------------------------
+(define initial-table
+  (lambda (name)
+    (car (quote ()))))
 ; ------------------------------
 
 (define entry1
