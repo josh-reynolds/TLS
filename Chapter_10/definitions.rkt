@@ -51,6 +51,12 @@
 ; ------------------------------
 
 ; ------------------------------
+(define third
+  (lambda (l)
+    (car (cdr (cdr l)))))
+; ------------------------------
+
+; ------------------------------
 (define extend-table cons)
 ; ------------------------------
 
@@ -108,7 +114,6 @@
 
 ; ------------------------------
 ; PLACEHOLDERS TO ALLOW EVALUATION
-(define *lambda 'LAMBDA)
 (define *cond 'COND)
 (define *application 'APPLICATION)
 ; ------------------------------
@@ -155,6 +160,25 @@
 (define initial-table
   (lambda (name)
     (car (quote ()))))
+; ------------------------------
+
+; ------------------------------
+(define *lambda
+  (lambda (e table)
+    (build (quote non-primitive)
+           (cons table (cdr e)))))
+; ------------------------------
+
+; ------------------------------
+(define table-of first)
+; ------------------------------
+
+; ------------------------------
+(define formals-of second)
+; ------------------------------
+
+; ------------------------------
+(define body-of third)
 ; ------------------------------
 
 (define entry1
