@@ -114,7 +114,6 @@
 
 ; ------------------------------
 ; PLACEHOLDERS TO ALLOW EVALUATION
-(define *cond 'COND)
 (define *application 'APPLICATION)
 ; ------------------------------
 
@@ -181,6 +180,113 @@
 (define body-of third)
 ; ------------------------------
 
+; ------------------------------
+(define evcon
+  (lambda (lines table)
+    (cond
+      ((else? (question-of (car lines))) (meaning (answer-of (car lines)) table))
+      ((meaning (question-of (car lines)) table) (meaning (answer-of (car lines)) table ))
+      (else (evcon (cdr lines) table)))))
+; ------------------------------
+
+; ------------------------------
+(define else?
+  (lambda (x)
+    (cond
+      ((atom? x) (eq? x (quote else)))
+      (else #f))))
+; ------------------------------
+
+; ------------------------------
+(define question-of first)
+; ------------------------------
+
+; ------------------------------
+(define answer-of second)
+; ------------------------------
+
+; ------------------------------
+(define *cond
+  (lambda (e table)
+    (evcon (cond-lines-of e) table)))
+; ------------------------------
+
+; ------------------------------
+(define cond-lines-of cdr)
+; ------------------------------
+
+; ------ working through example
+; (*cond list1 table4)
+; (evcon (cond-lines-of list1) table4)
+; (evcon (list (list 'coffee 'klatsch) 'else 'party) table4)
+;   (else? (question-of (car (list (list 'coffee 'klatsch) 'else 'party)))
+;   (else? (question-of (list 'coffee 'klatsch))
+;   (else? 'coffee)
+;     (atom? 'coffee) #t
+;       (eq? 'coffee 'else) #f
+;   #f
+;   (meaning (question-of (car (list (list 'coffee 'klatsch) 'else 'party)) table4)
+;   (meaning (question-of (list 'coffee 'klatsch)) table4)
+;   (meaning 'coffee table4)
+;     ((expression-to-action 'coffee) 'coffee table4)
+;       (atom? 'coffee) #t
+;         (atom-to-action 'coffee)
+;           (number? 'coffee) #f
+;            ...
+;           (else *identifier)
+;     (*identifier 'coffee table4)
+;       (lookup-in-table 'coffee table4 initial-table)
+;         (null? table) #f
+;         (else
+;           (lookup-in-entry 'coffee (car table4) ANON-1)
+;           (lookup-in-entry 'coffee (list (list 'coffee) (list #t)) ANON-1)
+;             (lookup-in-entry-help 'coffee (first (list (list 'coffee) (list #t)) (second (list (list 'coffee) (list #t)))) ANON-1)
+;             (lookup-in-entry-help 'coffee (list 'coffee) (list #t) ANON-1)
+;               (null? (list 'coffee)) #f
+;               (eq? 'coffee (car (list 'coffee))) #t
+;                 (car (list #t))
+;                 #t
+;   #t
+;     (meaning (answer-of (car (list (list 'coffee 'klatsch) 'else 'party)) table4)
+;     (meaning (answer-of (list 'coffee 'klatsch)) table4)
+;     (meaning 'klatsch table4)
+;       ((expression-to-action 'klatsch) 'klatsch table4)
+;         (atom? 'klatsch) #t
+;           (atom-to-action 'klatsch)
+;             (number? 'klatsch) #f
+;              ...
+;             (else *identifier)
+;       (*identifier 'klatsch table4)
+;         (lookup-in-table 'klatsch table4 initial-table)
+;           (null? table4) #f
+;           (else
+;             (lookup-in-entry 'klatsch (car table4) ANON-2)
+;             (lookup-in-entry 'klatsch (list (list 'coffee) (list #t)) ANON-2)
+;               (lookup-in-entry-help 'klatsch (first (list (list 'coffee) (list #t))) (second (list (list 'coffee) (list #t))) ANON-2)
+;               (lookup-in-entry-help 'klatsch (list 'coffee) (list #t) ANON-2)
+;                 (null? (list 'coffee)) #f
+;                 (eq? 'klatsch (car (list 'coffee))) #f
+;                 (else
+;                   (lookup-in-entry-help 'klatsch (cdr (list 'coffee)) (cdr (list #t)) ANON-2)
+;                   (lookup-in-entry-help 'klatsch '() '() ANON-2)
+;                     (null? '()) #t
+;                       (ANON-2 'klatsch)
+;                       (lookup-in-table 'klatsch (cdr table4) initial-table)
+;                       (lookup-in-table 'klatsch (list (list (list 'klatsch 'party) (list 5 (list 6)))) initial-table)
+;                         (null? (list (list (list 'klatsch 'party) (list 5 (list 6))))) #f
+;                         (else
+;                           (lookup-in-entry 'klatsch (car (list (list (list 'klatsch 'party) (list 5 (list 6))))) ANON-3)
+;                           (lookup-in-entry 'klatsch (list (list 'klatsch 'party) (list 5 (list 6))) ANON-3)
+;                             (lookup-in-entry-help 'klatsch (first ENTRY) (second ENTRY) ANON-3)
+;                             (lookup-in-entry-help 'klatsch (list 'klatsch 'party) (list 5 (list 6)) ANON-3)
+;                               (null? (list 'klatsch 'party)) #f
+;                               (eq? 'klatsch (car (list 'klatsch 'party)))
+;                               (eq? 'klatsch 'klatsch) #t
+;                                 (car (list 5 (list 6)))
+;                                 5
+; 5
+; ------------------------------
+
 (define entry1
   (list (list 'appetizer 'entrée 'beverage)
         (list 'paté 'boeuf 'vin)))
@@ -203,3 +309,22 @@
               (list 'spaghetti 'spumoni))
         (list (list 'appetizer 'entrée 'beverage)
               (list 'food 'tastes 'good))))
+
+(define table3
+  (list (list (list 'y 'z)
+              (list (list 8) 9))))
+
+(define list1
+  (list 'cond
+        (list 'coffee
+              'klatsch)
+        'else
+        'party))
+
+(define table4
+  (list (list (list 'coffee)
+              (list #t))
+        (list (list 'klatsch 'party)
+              (list 5
+                    (list 6)))))
+              
