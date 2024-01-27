@@ -113,11 +113,6 @@
 ; ------------------------------
 
 ; ------------------------------
-; PLACEHOLDERS TO ALLOW EVALUATION
-(define *application 'APPLICATION)
-; ------------------------------
-
-; ------------------------------
 (define value
   (lambda (e)
     (meaning e (quote ()))))
@@ -286,6 +281,35 @@
 ;                                 5
 ; 5
 ; ------------------------------
+
+; ------------------------------
+(define evlis
+  (lambda (args table)
+    (cond
+      ((null? args) (quote ()))
+      (else (cons (meaning (car args) table) (evlis (cdr args) table))))))
+; ------------------------------
+
+; ------------------------------
+(define *application          ; text uses 'apply' but there is already a built-in function with that name
+  (lambda (e table)           ; using 'applie' instead
+    (applie 
+     (meaning (function-of e) table)
+     (evlis (arguments-of e) table))))
+; ------------------------------
+
+; ------------------------------
+(define function-of car)
+; ------------------------------
+
+; ------------------------------
+(define arguments-of cdr)
+; ------------------------------
+
+; ------------------------------
+(define applie 'APPLIE)
+; ------------------------------
+
 
 (define entry1
   (list (list 'appetizer 'entrée 'beverage)
