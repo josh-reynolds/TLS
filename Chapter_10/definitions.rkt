@@ -307,7 +307,66 @@
 ; ------------------------------
 
 ; ------------------------------
-(define applie 'APPLIE)
+(define applie
+  (lambda (fun vals)
+    (cond
+      ((primitive? fun) (apply-primitive (second fun) vals))
+      ((non-primitive? fun) (apply-closure (second fun) vals)))))       
+; ------------------------------
+
+; ------------------------------
+(define primitive?
+  (lambda (l)
+    (eq? (first l) (quote primitive))))
+; ------------------------------
+
+; ------------------------------
+(define non-primitive?
+  (lambda (l)
+    (eq? (first l) (quote non-primitive))))
+; ------------------------------
+
+; ------------------------------
+(define apply-primitive
+  (lambda (name vals)
+    (cond
+      ((eq? name (quote cons)) (cons (first vals) (second vals)))
+      ((eq? name (quote car)) (car (first vals)))
+      ((eq? name (quote cdr)) (cdr (first vals)))
+      ((eq? name (quote null?)) (null? (first vals)))
+      ((eq? name (quote eq?)) (eq? (first vals) (second vals)))
+      ((eq? name (quote atom?)) (:atom? (first vals)))
+      ((eq? name (quote zero?)) (zero? (first vals)))
+      ((eq? name (quote add1)) (add1 (first vals)))
+      ((eq? name (quote sub1)) (sub1 (first vals)))
+      ((eq? name (quote number?)) (number? (first vals))))))
+; ------------------------------
+
+; ------------------------------
+(define add1
+  (lambda (n)
+    (+ n 1)))
+; ------------------------------
+
+; ------------------------------
+(define sub1
+  (lambda (n)
+    (- n 1)))
+; ------------------------------
+
+; ------------------------------
+(define :atom?
+  (lambda (x)
+    (cond
+      ((atom? x) #t)
+      ((null? x) #f)
+      ((eq? (car x) (quote primitive)) #t)
+      ((eq? (car x) (quote non-primitive)) #t)
+      (else #f))))
+; ------------------------------
+
+; ------------------------------
+(define apply-closure 'APPLY-CLOSURE)
 ; ------------------------------
 
 
