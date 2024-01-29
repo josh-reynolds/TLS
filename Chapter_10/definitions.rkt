@@ -366,7 +366,16 @@
 ; ------------------------------
 
 ; ------------------------------
-(define apply-closure 'APPLY-CLOSURE)
+(define apply-closure
+  (lambda (closure vals)
+    (meaning (body-of closure)
+             (extend-table (new-entry (formals-of closure) vals)
+                           (table-of closure)))))
+; ------------------------------
+
+; ------ working through example
+; (apply-closure list2 table5)
+; (meaning (body-of list2)(extend-table (new-entry (formals-of list2) table5) (table-of list2)))
 ; ------------------------------
 
 
@@ -410,4 +419,15 @@
         (list (list 'klatsch 'party)
               (list 5
                     (list 6)))))
-              
+
+(define list2
+  (list (list (list (list 'u 'v 'w)
+                    (list 1 2 3))
+              (list (list 'x 'y 'z)
+                    (list 4 5 6)))
+        (list 'x 'y)
+        (list 'cons 'z 'x)))
+
+(define table5
+  (list (list 'a 'b 'c)
+        (list 'd 'e 'f)))
