@@ -405,6 +405,22 @@
 ;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (cons (meaning (car (list 'x)) TABLE) (evlis (cdr (list 'x)) TABLE))))
 ;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (cons (meaning 'x TABLE) (evlis '() TABLE))))
 ;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (cons (meaning 'x TABLE) '())))
+;         (define TABLE (extend-table (new-entry (car (cdr list2)) table5) (car list2)))
+;       (applie (list 'primitive 'cons) (cons 6 (cons (list 'a 'b 'c) '())))
+;       (applie (list 'primitive 'cons) (cons 6 (list (list 'a 'b 'c))))
+;       (applie (list 'primitive 'cons) (list 6 (list 'a 'b 'c)))
+;         (primitive? (list 'primitive 'cons))
+;           (eq? (first (list 'primitive 'cons)) (quote primitive))
+;           (eq? 'primitive 'primitive) #t
+;         #t
+;           (apply-primitive (second (list 'primitive 'cons)) (list 6 (list 'a 'b 'c)))
+;           (apply-primitive 'cons (list 6 (list 'a 'b 'c)))
+;             (eq? 'cons (quote cons))
+;             (eq? 'cons 'cons) #t
+;               (cons (first (list 6 (list 'a 'b 'c))) (second (list 6 (list 'a 'b 'c))))
+;               (cons 6 (list 'a 'b 'c))
+;               (list 6 'a 'b 'c)
+; (list 6 'a 'b 'c)
 ; ------------------------------
 
 
