@@ -375,7 +375,36 @@
 
 ; ------ working through example
 ; (apply-closure list2 table5)
-; (meaning (body-of list2)(extend-table (new-entry (formals-of list2) table5) (table-of list2)))
+;   (meaning (body-of list2)(extend-table (new-entry (formals-of list2) table5) (table-of list2)))
+;   (meaning (third list2)(extend-table (new-entry (second list2) table5) (first list2)))
+;   (meaning (car (cdr (cdr list2)))(extend-table (new-entry (car (cdr list2)) table5) (car list2)))
+;   (meaning (list 'cons 'z 'x)(extend-table (new-entry (list 'x 'y) table5) (list (list (list 'u 'v 'w) ...))))
+;   (meaning (list 'cons 'z 'x)(extend-table (build (list 'x 'y) table5) (list (list (list 'u 'v 'w) ...))))
+;   (meaning (list 'cons 'z 'x)(extend-table (cons (list 'x 'y) (cons table5 '())) (list (list (list 'u 'v 'w) ...))))
+;   (meaning (list 'cons 'z 'x)(cons (cons (list 'x 'y) (cons table5 '())) (list (list (list 'u 'v 'w) ...))))
+;     ((expression-to-action (list 'cons 'z 'x)) (list 'cons 'z 'x) (cons (cons (list 'x 'y) (cons table5 '())) (list (list (list 'u 'v 'w) ...))))
+;       (atom? (list 'cons 'z 'x)) #f
+;       (else (list-to-action (list 'cons 'z 'x)))
+;         (atom? (car (list 'cons 'z 'x)))
+;         (atom? 'cons) #t
+;           (eq? 'cons (quote quote)) #f
+;           (eq? 'cons (quote lambda)) #f
+;           (eq? 'cons (quote cond)) #f
+;           (else *application)
+;     (*application (list 'cons 'z 'x) (cons (cons (list 'x 'y) (cons table5 '())) (list (list (list 'u 'v 'w) ...))))
+;       (applie (meaning (function-of (list 'cons 'z 'x)) TABLE) (evlis (arguments-of (list 'cons 'z 'x)) TABLE))
+;       (applie (meaning (car (list 'cons 'z 'x)) TABLE) (evlis (cdr (list 'cons 'z 'x)) TABLE))
+;       (applie (meaning 'cons TABLE) (evlis (list 'z 'x) TABLE))
+;       (applie ((expression-to-action 'cons) 'cons TABLE) (evlis (list 'z 'x) TABLE))
+;       (applie ((atom-to-action 'cons) 'cons TABLE) (evlis (list 'z 'x) TABLE))
+;       (applie (*const 'cons TABLE) (evlis (list 'z 'x) TABLE))
+;       (applie (build (quote primitive) 'cons) (evlis (list 'z 'x) TABLE))
+;       (applie (list 'primitive 'cons) (evlis (list 'z 'x) TABLE))
+;       (applie (list 'primitive 'cons) (cons (meaning (car (list 'z 'x)) TABLE) (evlis (cdr (list 'z 'x)) TABLE)))
+;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (evlis (list 'x) TABLE)))
+;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (cons (meaning (car (list 'x)) TABLE) (evlis (cdr (list 'x)) TABLE))))
+;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (cons (meaning 'x TABLE) (evlis '() TABLE))))
+;       (applie (list 'primitive 'cons) (cons (meaning 'z TABLE) (cons (meaning 'x TABLE) '())))
 ; ------------------------------
 
 
